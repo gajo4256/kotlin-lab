@@ -1,0 +1,3 @@
+rootProject.name = 'kt-fullstack'
+include "backend", "frontend"
+

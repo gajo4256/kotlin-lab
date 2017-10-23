@@ -1,0 +1,86 @@
+group 'com.example'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-dce-js'
+apply plugin: 'org.jetbrains.kotlin.frontend'
+
+repositories {
+    jcenter()
+
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    compile("org.jetbrains.kotlinx:kotlinx-html-js:$html_version")
+
+    compile ("org.jetbrains:kotlin-react:16.0.0-pre.5-kotlin-1.1.51")
+    compile ("org.jetbrains:kotlin-react-dom:16.0.0-pre.5-kotlin-1.1.51")
+    //compile('org.jetbrains:kotlin-extensions:1.0.0-pre.5-kotlin-1.1.51')
+}
+
+
+kotlinFrontend {
+    sourceMaps = false
+
+    npm {
+        dependency("react")
+        dependency("react-dom")
+        dependency("react-router")
+        dependency("jquery")
+        dependency("react-markdown")
+
+        //dependency("react-scripts-kotlin")
+
+        devDependency("kotlin-webpack-plugin")
+        devDependency("postcss-loader")
+        devDependency("extract-text-webpack-plugin")
+        devDependency("debug-webpack-plugin")
+        devDependency("file-loader")
+        devDependency("css-loader")
+        devDependency("style-loader")
+        devDependency("babel-loader")
+        devDependency("babel-core")
+        devDependency("karma")
+    }
+
+    webpackBundle {
+        bundleName = "main"
+        sourceMapEnabled = true
+        contentPath = file("build") // a file that represents a directory to be served by dev server)
+        publicPath = "/"  // web prefix
+        port = 8088   // dev server port
+        //proxyUrl = "http://localhost:9090"
+        stats = "errors-only"  // log level
+    }
+}
+
+
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+
+sourceSets {
+    main {
+        kotlin.srcDirs += "src"
+        resources.srcDirs += "resources"
+        resources.srcDirs += "src"
+        output.resourcesDir = "build/js/resources"
+    }
+    test {
+        kotlin.srcDirs += "test"
+        resources.srcDirs += "testResources"
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
