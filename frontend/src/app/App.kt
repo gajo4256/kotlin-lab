@@ -1,17 +1,13 @@
 
-package org.example.fullstack.frontend.app
+package app
 
-import app.constBar
-import app.statusBar
-import org.example.fullstack.frontend.logo.logo
+import logo.logo
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
-import org.example.fullstack.frontend.ticker.ticker
+import ticker.ticker
 import react.dom.*
-
-
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {

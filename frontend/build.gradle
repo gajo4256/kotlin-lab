@@ -37,6 +37,8 @@ kotlinFrontend {
         devDependency("postcss-loader")
         devDependency("extract-text-webpack-plugin")
         devDependency("debug-webpack-plugin")
+        devDependency("json-loader")
+        devDependency("url-loader")
         devDependency("file-loader")
         devDependency("css-loader")
         devDependency("style-loader")
@@ -48,7 +50,7 @@ kotlinFrontend {
     webpackBundle {
         bundleName = "main"
         sourceMapEnabled = true
-        contentPath = file("build") // a file that represents a directory to be served by dev server)
+        contentPath = file("build/bundle") // a file that represents a directory to be served by dev server)
         publicPath = "/"  // web prefix
         port = 8088   // dev server port
         //proxyUrl = "http://localhost:9090"

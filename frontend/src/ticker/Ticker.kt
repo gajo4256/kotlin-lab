@@ -1,4 +1,4 @@
-package org.example.fullstack.frontend.ticker
+package ticker
 
 
 import react.*
