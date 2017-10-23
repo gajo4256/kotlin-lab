@@ -1,4 +1,3 @@
-
 package app
 
 import logo.logo
@@ -6,8 +5,11 @@ import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
+import react.dom.code
+import react.dom.div
+import react.dom.h2
+import react.dom.p
 import ticker.ticker
-import react.dom.*
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
@@ -31,8 +33,16 @@ class App : RComponent<RProps, RState>() {
             +" seconds."
         }
 
-        statusBar("hello")
-        constBar("Hello")
+        div {
+            key = "statusbar"
+            statusBar("hello")
+        }
+
+        div {
+            key = "constbar"
+            constBar("Hello")
+        }
+
     }
 }
 
