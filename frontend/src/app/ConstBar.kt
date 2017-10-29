@@ -4,7 +4,8 @@ import coroutines.async
 import coroutines.await
 import coroutines.launch
 import kotlinx.html.js.onClickFunction
-import org.w3c.fetch.*
+import org.w3c.fetch.CORS
+import org.w3c.fetch.RequestMode
 import react.RBuilder
 import react.RComponent
 import react.RProps
@@ -37,16 +38,8 @@ class ConstBar(props: ConstProps) : RComponent<ConstProps, ConstState>(props) {
 
             attrs {
                 onClickFunction = { event ->
-                    //setState(ConstState(state.counter + 1, "no message yet"))
                     launch {
-                        val message = async {
-                            rest.get("http://localhost:9090/hello?count=${state.counter}") {
-                                headers = json("Accept" to "application/json")
-                                mode = RequestMode.CORS
-                            }.fromJson {
-                                Message(get("message") as String)
-                            }
-                        }.await()
+                        val message = fetchMessage(state.counter)
                         setState(ConstState(state.counter + 1, message.message))
                     }
                 }
@@ -54,5 +47,15 @@ class ConstBar(props: ConstProps) : RComponent<ConstProps, ConstState>(props) {
         }
     }
 }
+
+private suspend fun fetchMessage(count: Int): Message {
+    val response = rest.fetch("http://localhost:9090/hello?count=$count") {
+        headers = json("Accept" to "application/json")
+        mode = RequestMode.CORS
+    }.await()
+    return response.fromJson { Message(get("message") as String) }
+}
+
+
 
 fun RBuilder.constBar(msg: String) = child(::ConstBar, ConstProps(msg)) {}
