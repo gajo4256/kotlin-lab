@@ -1,5 +1,6 @@
 package coroutines
 
+import kotlin.browser.window
 import kotlin.coroutines.experimental.*
 import kotlin.js.Promise
 
@@ -27,3 +28,8 @@ fun <T> async(block: suspend () -> T): Promise<T> = Promise<T> { resolve, reject
 fun launch(block: suspend () -> Unit) {
     async(block).catch { exception -> console.log("Failed with $exception") }
 }
+
+suspend fun delay(millis: Int): Unit = suspendCoroutine { cont ->
+    window.setTimeout({ cont.resume(Unit) }, millis)
+}
+
