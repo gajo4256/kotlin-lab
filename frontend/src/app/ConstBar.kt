@@ -1,8 +1,6 @@
 package app
 
-import coroutines.async
-import coroutines.await
-import coroutines.launch
+import kotlinx.coroutines.experimental.*
 import kotlinx.html.js.onClickFunction
 import org.w3c.fetch.CORS
 import org.w3c.fetch.RequestMode
@@ -21,7 +19,7 @@ class ConstState(val counter: Int, val msg: String) : RState
 class ConstBar(props: ConstProps) : RComponent<ConstProps, ConstState>(props) {
 
     init {
-        state = ConstState(0, "no message yet from backend")
+        state = ConstState(0, "no message yet from backend. So sad.")
     }
 
     override fun RBuilder.render() {

@@ -1,8 +1,8 @@
 package ticker
 
 
-import coroutines.delay
-import coroutines.launch
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import react.*
 import react.dom.span
 

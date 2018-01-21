@@ -1,6 +1,6 @@
 package rest
 
-import coroutines.await
+import kotlinx.coroutines.experimental.*
 import org.w3c.fetch.RequestInit
 import org.w3c.fetch.Response
 import kotlin.browser.window
