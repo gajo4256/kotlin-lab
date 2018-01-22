@@ -6,7 +6,7 @@ import kotlin.coroutines.experimental.buildIterator
 import kotlin.js.Json
 
 
-class StockService(eventSource: EventSource = EventSource("http://localhost:9090/stocks")){
+class StockService(eventSource: EventSource = EventSource("http://localhost:9090/stocks")) {
 
     lateinit var currentStock: Json
 
@@ -14,18 +14,16 @@ class StockService(eventSource: EventSource = EventSource("http://localhost:9090
         val iterator = buildIterator({
             while (true) {
                 yield(currentStock)
-
             }
         })
         iterator
     }
 
     init {
+        console.log("init stockservice")
         val onMessage = { event: Event ->
             val json: Json = event as Json
-            val any = json["data"]
-            currentStock = any!! as Json
-
+            currentStock= JSON.parse(json["data"] as String)
         }
         eventSource.onmessage = onMessage
     }
