@@ -1,5 +1,6 @@
-package com.comsysto.kotlinfullstack.backend
+package com.comsysto.kotlinfullstack
 
+import com.comsysto.kotlinfullstack.backend.RouteHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
@@ -15,7 +16,7 @@ class AppConfiguration {
     }
 
     @Bean
-    fun client() = {
-        WebClient.create("https://api.coinbase.com/v2/");
+    fun client() : WebClient {
+        return WebClient.create("https://api.coinbase.com/v2/")
     }
 }
