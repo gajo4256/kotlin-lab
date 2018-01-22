@@ -1,4 +1,4 @@
-package org.example.fullstack.backend
+package com.comsysto.kotlinfullstack.backend
 
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus

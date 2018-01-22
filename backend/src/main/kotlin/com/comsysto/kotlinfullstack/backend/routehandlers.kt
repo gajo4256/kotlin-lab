@@ -1,4 +1,4 @@
-package org.example.fullstack.backend
+package com.comsysto.kotlinfullstack.backend
 
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component

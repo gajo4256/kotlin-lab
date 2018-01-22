@@ -1,4 +1,4 @@
-group = 'com.example'
+group = 'com.comsysto'
 version = '0.0.1-SNAPSHOT'
 
 apply plugin: 'kotlin'
@@ -9,7 +9,7 @@ apply plugin: 'io.spring.dependency-management'
 
 buildscript {
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M5")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
     }
@@ -21,15 +21,6 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
-}
-
-sourceSets {
-    main.java.srcDirs += "src"
-    main.resources.srcDirs += "resources"
-    main.kotlin.srcDirs += "src"
-    test.java.srcDirs += "test"
-    test.kotlin.srcDirs += "test"
-    test.resources.srcDirs += "testResources"
 }
 
 compileKotlin {
