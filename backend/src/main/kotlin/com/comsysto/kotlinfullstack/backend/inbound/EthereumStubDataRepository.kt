@@ -14,13 +14,13 @@ class EthereumStubDataRepository : CurrencyDataRepository {
         return "ETH"
     }
 
-    @Value("\${inbound.stubs.throttle:500}")
-    lateinit var throttleValue: Integer
+    @Value("\${inbound.stubs.throttle:100}")
+    var throttleValue: Int = 100
 
     override fun dataStream(): Flux<BigDecimal> {
         return flux {
             while (true) {
-                delay(throttleValue.toInt())
+                delay(throttleValue)
                 val result = BigDecimal(Math.random() * 10000)
                 send(result)
             }
