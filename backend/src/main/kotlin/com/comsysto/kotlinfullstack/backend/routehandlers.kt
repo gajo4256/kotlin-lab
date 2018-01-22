@@ -11,10 +11,10 @@ class RouteHandler(private val cryptoStockService: CryptoStockService) {
 
     fun cryptoStockTicker(request: ServerRequest): Mono<ServerResponse> {
 
-        return request.queryParam("currency").map { currency ->
+        return request.queryParam("currency").map { it.split(',') }.map { currencies ->
             ServerResponse.ok()
                     .contentType(MediaType.TEXT_EVENT_STREAM)
-                    .body(cryptoStockService.currentPriceStream(currency), CryptoStock::class.java)
+                    .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
         }.orElse(
                 ServerResponse.badRequest()
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
