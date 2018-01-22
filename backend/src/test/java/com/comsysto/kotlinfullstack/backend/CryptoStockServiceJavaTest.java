@@ -1,11 +1,9 @@
 package com.comsysto.kotlinfullstack.backend;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import reactor.test.StepVerifier;
-
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 
 public class CryptoStockServiceJavaTest {
 
@@ -16,9 +14,16 @@ public class CryptoStockServiceJavaTest {
         testee = new CryptoStockService();
     }
 
-    @Test
-    public void currentPriceStream() {
-        StepVerifier.create(testee.currentPriceStream())
-                .expectNext(new CryptoStock("ETH", ZonedDateTime.now(), BigDecimal.ONE));
-    }
+//    @Test
+//    public void currentPriceStream() {
+//        StepVerifier.create(testee.currentPriceStream())
+//                .consumeNextWith(it -> {
+//                    Assert.assertEquals("ETH", it.getCurrency());
+//                }).verifyComplete();
+//    }
+//
+//    @Test
+//    public void currentPriceStream2() {
+//        StepVerifier.create(testee.currentPriceStream()).consumeNextWith(System.out::println);
+//    }
 }
