@@ -10,10 +10,13 @@ class CryptoStockService constructor(ethereumDataRepository: EthereumStubDataRep
 
     var ethereumData: EthereumStubDataRepository = ethereumDataRepository
 
-    fun currentPriceStream(currencyKey: String): Flux<CryptoStock> {
-        return Flux.from(ethereumData.dataStream()).map {
-            CryptoStock(ethereumData.currencyKey(), ZonedDateTime.now(), it)
+    fun currentPriceStream(currencyKey: String): Flux<CryptoStock> =
+        when (currencyKey) {
+            "ETH" -> Flux.from(ethereumData.dataStream()).map {
+                CryptoStock(ethereumData.currencyKey(), ZonedDateTime.now(), it)
+            }
+            else -> {
+                throw RuntimeException("unknown currencyKey ${currencyKey}")
+            }
         }
-    }
-
 }
