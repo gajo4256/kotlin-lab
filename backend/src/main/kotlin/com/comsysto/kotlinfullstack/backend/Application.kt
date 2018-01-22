@@ -1,11 +1,11 @@
 package com.comsysto.kotlinfullstack.backend
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class ReactiveApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(ReactiveApplication::class.java, *args)
+    runApplication<ReactiveApplication>(*args)
 }
