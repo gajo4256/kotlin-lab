@@ -23,6 +23,7 @@
 .idea/**/libraries
 .gradle/
 build/
+frontend/build
 !gradle/wrapper/gradle-wrapper.jar
 
 # CMake
