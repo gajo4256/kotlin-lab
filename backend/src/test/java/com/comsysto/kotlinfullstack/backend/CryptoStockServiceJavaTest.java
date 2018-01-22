@@ -7,12 +7,12 @@ import reactor.test.StepVerifier;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-class CryptoStockServiceJavaTest {
+public class CryptoStockServiceJavaTest {
 
     private CryptoStockService testee;
 
     @Before
-    void setUp() {
+    public void setUp() {
         testee = new CryptoStockService();
     }
 
