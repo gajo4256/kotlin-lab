@@ -1,5 +1,6 @@
 package com.comsysto.kotlinfullstack.backend;
 
+import com.comsysto.kotlinfullstack.backend.inbound.EthereumStubDataRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class CryptoStockServiceJavaTest {
 
     @Before
     public void setUp() {
-        testee = new CryptoStockService();
+        testee = new CryptoStockService(new EthereumStubDataRepository());
     }
 
 //    @Test

@@ -1,27 +1,19 @@
 package com.comsysto.kotlinfullstack.backend
 
+import com.comsysto.kotlinfullstack.backend.inbound.EthereumStubDataRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
-import java.math.BigDecimal
 import java.time.ZonedDateTime
-import kotlin.coroutines.experimental.buildSequence
 
 @Service
-class CryptoStockService {
+class CryptoStockService constructor(ethereumDataRepository: EthereumStubDataRepository) {
 
-    fun currentPriceStream(): Flux<CryptoStock> {
+    var ethereumData: EthereumStubDataRepository = ethereumDataRepository
 
-        val sequence = buildSequence {
-            while (true) {
-                yield(BigDecimal(Math.random() * 10000))
-            }
+    fun currentPriceStream(currencyKey: String): Flux<CryptoStock> {
+        return Flux.from(ethereumData.dataStream()).map {
+            CryptoStock(ethereumData.currencyKey(), ZonedDateTime.now(), it)
         }
-
-        return Flux.fromIterable(sequence.asIterable()).map {
-            CryptoStock("ETH", ZonedDateTime.now(), it)
-        }
-
     }
-
 
 }

@@ -1,3 +1,6 @@
+inbound:
+  stubs:
+    throttle: 100 # throttle im ms
 server:
   port: 9090
 

@@ -10,5 +10,5 @@ class RouteHandler(private val cryptoStockService: CryptoStockService) {
 
     fun cryptoStockTicker(request: ServerRequest) = ServerResponse.ok()
             .contentType(MediaType.TEXT_EVENT_STREAM)
-            .body(cryptoStockService.currentPriceStream(), CryptoStock::class.java)
+            .body(cryptoStockService.currentPriceStream("ETH"), CryptoStock::class.java)
 }
