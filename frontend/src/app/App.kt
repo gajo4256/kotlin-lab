@@ -6,8 +6,10 @@ import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.*
+//import service.StockService
 
 class App : RComponent<RProps, RState>() {
+
     override fun RBuilder.render() {
         nav(classes = "navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0") {
             key = "header"
@@ -25,15 +27,15 @@ class App : RComponent<RProps, RState>() {
         }
 
         header() {
-            key = "title"
-            h2 {
+            key = "header"
+            h1 {
                 +"Kotlin Lab"
             }
         }
 
         div(classes = "currency-tiles") {
-            currencyTile("Bitcoin", 9999)
-            currencyTile("Ethereum", 700)
+            currencyTile("Bitcoin", 9999.34532)
+            currencyTile("Ethereum", 712.981)
             currencyTile("Monero", 288)
         }
 
@@ -48,7 +50,13 @@ class App : RComponent<RProps, RState>() {
     }
 }
 
-fun RBuilder.app() = child(App::class) {}
+fun RBuilder.app() = child(App::class) {
+//    attrs.stockService = StockService()
+}
 
+//interface AppProps: RProps {
+//    var stockService: StockService
+//}
+//
 
 

@@ -8,7 +8,7 @@ import react.dom.div
 
 interface CurrencyTileProps : RProps {
     var currencyName: String
-    var rate: Int
+    var rate: Number
 }
 
 class CurrencyTile() : RComponent<CurrencyTileProps, RState>() {
@@ -19,19 +19,18 @@ class CurrencyTile() : RComponent<CurrencyTileProps, RState>() {
                 +props.currencyName
             }
             div(classes = "rate") {
-                + "€ "
-                +props.rate.toString()
+                +formatCurrency(props.rate)
             }
         }
 
     }
 }
 
-fun formatCurrency(amount: Int) {
-
+fun formatCurrency(amount:Number): String {
+    return "€ ${amount.asDynamic().toFixed(2)}"
 }
 
-fun RBuilder.currencyTile(currencyName: String, rate: Int) = child(CurrencyTile::class) {
+fun RBuilder.currencyTile(currencyName: String, rate: Number) = child(CurrencyTile::class) {
     attrs.currencyName = currencyName
     attrs.rate = rate
 }
