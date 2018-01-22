@@ -26,6 +26,7 @@ subprojects {
     ext.kotlin_version = '1.2.10'
     ext.html_version = '0.6.8'
     ext.spring_boot_version = '2.0.0.M7'
+    ext.coroutines_version = "0.21.2"
 
     repositories {
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
