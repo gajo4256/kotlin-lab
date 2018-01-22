@@ -10,13 +10,10 @@ class CryptoStockService constructor(dataRepositories: List<CurrencyDataReposito
 
     val inboundRepos: Map<String, CurrencyDataRepository> = dataRepositories.map { Pair(it.currencyKey(), it) }.toMap()
 
-    fun currentPriceStream(currencyKey: String): Flux<CryptoStock> {
-
-        val dataRepository = inboundRepos.getOrElse(currencyKey, { throw RuntimeException("unknown currencyKey $currencyKey") })
-
-        return Flux.from(dataRepository.dataStream().map {
-            CryptoStock(currencyKey, ZonedDateTime.now(), it)
-        })
-    }
-
+    fun currentPriceStream(currencyKey: String): Flux<CryptoStock> =
+            Flux.from(
+                    inboundRepos.getOrElse(currencyKey, { throw RuntimeException("unknown currencyKey $currencyKey") })
+                            .dataStream().map {
+                        CryptoStock(currencyKey, ZonedDateTime.now(), it)
+                    })
 }
