@@ -21,6 +21,9 @@
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
 
 # CMake
 cmake-build-debug/
@@ -30,6 +33,7 @@ cmake-build-debug/
 
 ## File-based project format:
 *.iws
+*.iml
 
 ## Plugin-specific files:
 
