@@ -13,7 +13,7 @@ import assertk.assertions.*
 
 internal class CryptoStockServiceTest {
 
-    val currencyKey = "MOCK"
+    val currencyKeys = listOf("MOCK")
     val valuesList = listOf(BigDecimal("0.99"), BigDecimal("0.42"))
 
     private lateinit var testee: CryptoStockService
@@ -21,7 +21,7 @@ internal class CryptoStockServiceTest {
     @Before
     fun setUp() {
         val repositoryMock = object : CurrencyDataRepository {
-            override fun currencyKey(): String = currencyKey
+            override fun currencyKey(): String = currencyKeys[0]
             override fun dataStream(): Flux<BigDecimal> {
                 return valuesList.toFlux()
             }
@@ -31,16 +31,16 @@ internal class CryptoStockServiceTest {
 
     @Test
     fun currentPriceStream() {
-        StepVerifier.create(testee.currentPriceStream(currencyKey))
+        StepVerifier.create(testee.currentPriceStream(currencyKeys.subList(0, 1)))
                 .consumeNextWith({
                     assertAll {
-                        assert(it.currency).isEqualTo(currencyKey)
+                        assert(it.currency).isEqualTo(currencyKeys[0])
                         assert(it.price).isEqualTo(valuesList[0])
                     }
                 })
                 .consumeNextWith({
                     assertAll {
-                        assert(it.currency).isEqualTo(currencyKey)
+                        assert(it.currency).isEqualTo(currencyKeys[0])
                         assert(it.price).isEqualTo(valuesList[1])
                     }
                 })

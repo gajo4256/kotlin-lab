@@ -10,15 +10,15 @@ class CryptoStockService constructor(dataRepositories: List<CurrencyDataReposito
 
     val inboundRepos: Map<String, CurrencyDataRepository> = dataRepositories.map { Pair(it.currencyKey(), it) }.toMap()
 
-    fun currentPriceStream(currencyKeys: List<String>): Flux<CryptoStock> {
-        return Flux.merge(currencyKeys.map {
-            inboundRepos
-                    .getOrElse(it, { throw RuntimeException("unknown currencyKey $it") })
-                    .dataStream()
-                    .map { number ->
-                        CryptoStock(it, ZonedDateTime.now(), number)
-                    }
-        })
-    }
+    fun currentPriceStream(currencyKeys: List<String>): Flux<CryptoStock> =
+            Flux.merge(currencyKeys.map {
+                inboundRepos
+                        .getOrElse(it, { throw RuntimeException("unknown currencyKey $it") })
+                        .dataStream()
+                        .map { number ->
+                            CryptoStock(it, ZonedDateTime.now(), number)
+                        }
+            })
+
 
 }
