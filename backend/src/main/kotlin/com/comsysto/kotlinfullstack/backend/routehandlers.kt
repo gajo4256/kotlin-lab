@@ -11,18 +11,19 @@ class RouteHandler(private val cryptoStockService: CryptoStockService) {
 
     fun cryptoStockTicker(request: ServerRequest): Mono<ServerResponse> {
 
-        return request.queryParam("currency").map { it.split(',') }.map { currencies ->
-            ServerResponse.ok()
-                    .contentType(MediaType.TEXT_EVENT_STREAM)
-                    .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
-        }.orElse(
-                ServerResponse.badRequest()
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .body(
-                                Mono.just(ErrorResponse("required parameter currency is missing")),
-                                ErrorResponse::class.java
-                        )
-        )
+        val currencies = request.queryParams().get("currency")
+        if (currencies == null || currencies.isEmpty()) {
+            return ServerResponse.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .body(
+                            Mono.just(ErrorResponse("required parameter currency is missing")),
+                            ErrorResponse::class.java
+                    )
+        }
+        return ServerResponse.ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
+
 
     }
 }
