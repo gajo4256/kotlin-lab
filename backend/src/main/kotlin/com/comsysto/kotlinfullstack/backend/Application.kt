@@ -7,17 +7,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.router
 
 @SpringBootApplication
-class ReactiveApplication(val routeHandler: RouteHandler) {
-    @Bean
-    fun routes() = router {
-        "/hello".nest {
-            accept(MediaType.APPLICATION_JSON).nest {
-                GET("/", routeHandler::hello)
-
-            }
-        }
-    }
-}
+class ReactiveApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(ReactiveApplication::class.java, *args)
