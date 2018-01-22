@@ -10,6 +10,7 @@ fun main(args: Array<String>) {
     require("index.html")
     require("favicon.ico")
     require("app/App.css")
+    require("components/currencyTile/CurrencyTile.css")
 
     render(document.getElementById("root")) {
         app()

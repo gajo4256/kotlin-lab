@@ -1,3 +1,18 @@
-body {
-  text-align: center;
+.currency-tile {
+    color: white;
+    background: darkcyan;
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    justify-content: space-between;
+}
+
+.currency-title {
+    font-size: 1.5em;
+}
+
+.rate {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: right;
 }

@@ -5,25 +5,30 @@ import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.div
-import react.dom.h2
-import react.dom.p
 
-class CurrencyTileProps(var currencyName: String, var rate: Int) : RProps
+interface CurrencyTileProps : RProps {
+    var currencyName: String
+    var rate: Int
+}
 
 class CurrencyTile() : RComponent<CurrencyTileProps, RState>() {
     override fun RBuilder.render() {
-        div() {
+        div(classes = "currency-tile") {
             key = "currencyTile"
-            h2() {
+            div(classes = "currency-title") {
                 +props.currencyName
             }
-            p() {
+            div(classes = "rate") {
                 + "€ "
                 +props.rate.toString()
             }
         }
 
     }
+}
+
+fun formatCurrency(amount: Int) {
+
 }
 
 fun RBuilder.currencyTile(currencyName: String, rate: Int) = child(CurrencyTile::class) {
