@@ -1,20 +1,25 @@
 version = '0.0.1-SNAPSHOT'
 
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+        classpath "gradle.plugin.com.github.lkishalmi.gatling:gradle-gatling-plugin:0.7.1"
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: "kotlin-spring"
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.github.lkishalmi.gatling"
 
-buildscript {
-    repositories {
-        maven { url "https://repo.spring.io/milestone" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
-    }
-}
+
 
 repositories {
     maven { url "https://repo.spring.io/milestone" }
@@ -53,4 +58,9 @@ kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+gatling {
+    toolVersion = '2.3.0'
+    jvmArgs = [ '-server', '-Xms512M', '-Xmx512M' ]
 }

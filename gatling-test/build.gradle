@@ -1,0 +1,22 @@
+version = '0.0.1-SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.lkishalmi.gatling:gradle-gatling-plugin:0.7.1"
+    }
+}
+
+apply plugin: "com.github.lkishalmi.gatling"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+gatling {
+    toolVersion = '2.3.0'
+    jvmArgs = [ '-server', '-Xms512M', '-Xmx512M' ]
+}
