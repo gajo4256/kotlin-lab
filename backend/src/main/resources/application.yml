@@ -7,3 +7,6 @@ server:
 logging:
   level:
     org.springframework: DEBUG
+
+
+coinbase.api.url: https://api.coinbase.com/v2/

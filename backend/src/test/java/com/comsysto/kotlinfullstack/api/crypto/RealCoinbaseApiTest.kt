@@ -18,5 +18,14 @@ class RealCoinbaseApiTest {
                 .exchange()
                 .expectStatus().isOk
     }
+
+    @Test
+    fun `Test real coinbase api exchange rate endpoint`() {
+        webTestClient
+                .get()
+                .uri("exchange-rates?currency=USD")
+                .exchange()
+                .expectStatus().isOk
+    }
     
 }
