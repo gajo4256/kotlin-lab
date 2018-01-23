@@ -1,6 +1,5 @@
 package app
 
-import components.currencyChart.CurrencyChart
 import components.currencyChart.currencyChart
 import components.currencyTile.currencyTile
 import kotlinx.coroutines.experimental.delay
@@ -8,7 +7,6 @@ import kotlinx.coroutines.experimental.launch
 import react.*
 import react.dom.*
 import service.StockService
-import kotlin.js.Date
 
 interface AppProps : RProps {
     var stockService: StockService
@@ -18,16 +16,16 @@ interface AppState : RState {
     var ethRate: Double
     var minEthRate: Double
     var maxEthRate: Double
+    var rateList: MutableList<Double>
 }
 
 class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
-
-    var cryptoData = listOf(CryptoData("BTC", Date(), 110.0), CryptoData("BTC", Date(), 9000.0), CryptoData("BTC", Date(), 7000.0))
 
     override fun AppState.init(props: AppProps) {
         ethRate = 0.0
         minEthRate = 9999999999.0
         maxEthRate = 0.0
+        rateList = mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     }
 
     override fun componentDidMount() {
@@ -37,21 +35,24 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
             for (x in iterator) {
                 val price = x?.get("price") as Double?
                 val rate = price ?: -1.0
-                updateRate(rate)
+                if (rate != -1.0) {
+                    updateRate(rate)
+                }
                 delay(1000)
 
             }
         }
     }
 
-    fun updateRate(rate: Double) {
-        if (rate != -1.0) {
-            setState {
-                ethRate = rate
-                minEthRate = minOf(rate, minEthRate)
-                maxEthRate = maxOf(rate, maxEthRate)
-            }
-
+    private fun updateRate(rate: Double) {
+        val newList: MutableList<Double> = state.rateList
+        newList.removeAt(0)
+        newList.add(rate)
+        setState {
+            ethRate = rate
+            minEthRate = minOf(rate, minEthRate)
+            maxEthRate = maxOf(rate, maxEthRate)
+            rateList = newList
         }
     }
 
@@ -65,13 +66,13 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         }
 
         div(classes = "currency-tiles") {
-//            currencyTile("Bitcoin", 9999.34532, 123.0, 540.0)
+            //            currencyTile("Bitcoin", 9999.34532, 123.0, 540.0)
             currencyTile("Ethereum", state.ethRate, state.minEthRate, state.maxEthRate)
 //            currencyTile("Monero", 288)
         }
 
         div {
-            currencyChart(cryptoData)
+            currencyChart(state.rateList)
         }
 
         footer(classes = "footer") {

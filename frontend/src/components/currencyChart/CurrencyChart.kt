@@ -1,30 +1,25 @@
 package components.currencyChart
 
-import app.CryptoData
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import kotlinx.html.id
-import react.*
+import react.RBuilder
+import react.RComponent
+import react.RProps
+import react.RState
 import react.dom.canvas
 import react.dom.div
-import kotlin.js.Date
-import kotlin.js.Math
 
 interface CurrencyChartProps : RProps {
-    var cryptoDataListProps: List<CryptoData>
+    var rateListProp: List<Double>
 }
 
 interface CurrencyChartState : RState {
-    var cryptoDataListState: MutableList<CryptoData>
-    var rateListState: MutableList<Number>
+    var rateListState: MutableList<Double>
 }
 
 class CurrencyChart(props: CurrencyChartProps) : RComponent<CurrencyChartProps, CurrencyChartState>(props) {
 
     override fun CurrencyChartState.init(props: CurrencyChartProps) {
-        cryptoDataListState = mutableListOf()
-        rateListState = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
+        rateListState = props.rateListProp as MutableList<Double>
     }
 
     override fun RBuilder.render() {
@@ -37,28 +32,15 @@ class CurrencyChart(props: CurrencyChartProps) : RComponent<CurrencyChartProps, 
         }
     }
 
+    override fun componentDidUpdate(prevProps: CurrencyChartProps, prevState: CurrencyChartState) {
+        eval("""
+            chart.data.datasets[0].data = ${state.rateListState};
+            chart.update(0);
+            """)
+    }
+
     override fun componentDidMount() {
-        launch {
-            while (true) {
-                var newList: MutableList<Number> = state.rateListState
-                newList.removeAt(0)
-                newList.add(Math.random() * 2314)
-                setState {
-                    cryptoDataListState.add(CryptoData("BTC", Date(), Math.random() * 3004))
-                    rateListState = newList
-                }
 
-                eval("""
-                    chart.data.datasets[0].data = ${state.rateListState};
-
-                     chart.update(0);
-                     console.log("Updating chart");
-                """)
-
-                console.log("RateList: " + state.rateListState.toString())
-                delay(1000)
-            }
-        }
 
         eval("""
             window.chart = new Chart(document.getElementById("cryptoChart"), {
@@ -67,7 +49,7 @@ class CurrencyChart(props: CurrencyChartProps) : RComponent<CurrencyChartProps, 
                     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     datasets: [{
                         data: ${state.rateListState},
-                        label: "Africa",
+                        label: "#currentlySelectedCrypto",
                         borderColor: "#3e95cd",
                         fill: false
                       }
@@ -76,7 +58,7 @@ class CurrencyChart(props: CurrencyChartProps) : RComponent<CurrencyChartProps, 
               options: {
                 title: {
                   display: true,
-                  text: 'World population per region (in millions)'
+                  text: '#insertCurrency Price Chart Euro (#currency/EUR)'
                 }
               }
             });
@@ -85,6 +67,6 @@ class CurrencyChart(props: CurrencyChartProps) : RComponent<CurrencyChartProps, 
     }
 }
 
-fun RBuilder.currencyChart(cryptoDataList: List<CryptoData>) = child(CurrencyChart::class) {
-    attrs.cryptoDataListProps = cryptoDataList
+fun RBuilder.currencyChart(cryptoDataList: List<Double>) = child(CurrencyChart::class) {
+    attrs.rateListProp = cryptoDataList
 }
