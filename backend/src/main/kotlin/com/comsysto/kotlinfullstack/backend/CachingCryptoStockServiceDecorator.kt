@@ -6,5 +6,5 @@ class CachingCryptoStockServiceDecorator(private val subject: CryptoStockService
     private val streamMap: MutableMap<List<String>, Flux<CryptoStock>> = mutableMapOf()
 
     override fun currentPriceStream(currencyKeys: List<String>): Flux<CryptoStock> =
-            streamMap.getOrPut(currencyKeys.sorted(), {subject.currentPriceStream(currencyKeys)})
+            streamMap.getOrPut(currencyKeys.sorted(), {subject.currentPriceStream(currencyKeys).publish().autoConnect()})
 }

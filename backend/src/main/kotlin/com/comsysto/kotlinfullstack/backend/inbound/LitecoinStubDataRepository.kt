@@ -14,12 +14,14 @@ class LitecoinStubDataRepository : CurrencyDataRepository {
     }
 
     override fun dataStream(): Flux<BigDecimal> {
-        return flux {
+        val flux = flux {
+            println("constructing datastream for ${currencyKey()}")
             while (true) {
                 delay(2000)
                 val result = BigDecimal(Math.random() * 4711)
                 send(result)
             }
         }
+        return flux
     }
 }

@@ -11,6 +11,7 @@ class MonitoringStockServiceDecorator(private val service: CryptoStockServiceInt
     override fun currentPriceStream(currencyKeys: List<String>): Flux<CryptoStock> {
         val currentPriceStream = service.currentPriceStream(currencyKeys)
         return currentPriceStream.doOnNext {
+            println(it)
             count++
         }
 
