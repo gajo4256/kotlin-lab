@@ -28,6 +28,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutines_version}")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
