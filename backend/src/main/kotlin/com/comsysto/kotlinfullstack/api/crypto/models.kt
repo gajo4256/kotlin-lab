@@ -7,3 +7,7 @@ data class CurrencyMetaData(val id: String, val min_size: String, val name: Stri
 data class ExchangeRateMetaDataResponse(val data: ExchangeRate)
 
 data class ExchangeRate(val currency: String, val rates: Map<String, String>)
+
+data class SpotPriceMetaDataResponse(val data: SpotPrice)
+
+data class SpotPrice(val amount: String, val currency: String)

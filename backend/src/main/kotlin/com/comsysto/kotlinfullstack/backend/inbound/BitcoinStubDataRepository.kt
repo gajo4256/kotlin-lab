@@ -1,24 +1,21 @@
 package com.comsysto.kotlinfullstack.backend.inbound
 
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.reactor.flux
+import com.comsysto.kotlinfullstack.api.crypto.ReactiveClient
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
 import java.math.BigDecimal
+import java.time.Duration
 
 @Component
-class BitcoinStubDataRepository : CurrencyDataRepository {
+class BitcoinStubDataRepository(private val client: ReactiveClient) : CurrencyDataRepository {
     override fun currencyKey(): String {
         return "BTC"
     }
 
     override fun dataStream(): Flux<BigDecimal> {
-        return flux {
-            while (true) {
-                delay(1000)
-                val result = BigDecimal(Math.random() * 3004)
-                send(result)
-            }
-        }
+        return client.getSpotPrice(currencyKey())
+                .map { BigDecimal(it.data.amount) }
+                .delaySubscription(Duration.ofSeconds(1))
+                .repeat()
     }
 }
