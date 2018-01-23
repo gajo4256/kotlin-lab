@@ -12,7 +12,6 @@ class MonitoringStockServiceDecorator(private val service: CryptoStockServiceInt
         val currentPriceStream = service.currentPriceStream(currencyKeys)
         return currentPriceStream.doOnNext {
             count++
-            println("incrementing counter ${count}")
         }
 
     }
