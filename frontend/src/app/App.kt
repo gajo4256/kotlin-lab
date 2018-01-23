@@ -9,7 +9,6 @@ import react.RProps
 import react.RState
 import react.dom.*
 import service.StockService
-import kotlin.js.Json
 
 
 class App : RComponent<AppProps, RState>() {
@@ -17,25 +16,18 @@ class App : RComponent<AppProps, RState>() {
     var testRate: Number = 0
 
     override fun componentDidMount() {
-        var iterator: Iterator<Json>? = null
-        launch {
-            delay(3000)
-            console.log("Done waiting...")
-            while (iterator == null) {
-                try {
-                    iterator = props.stockService.getStockStream()
-                } catch (e: UninitializedPropertyAccessException) {
-                    delay(1000)
-                }
-            }
+        val iterator = props.stockService.getStockStream()
 
-            for (x in iterator!!) {
-                testRate = x["price"] as Number
+        launch {
+            for (x in iterator) {
+                val price = x?.get("price") as Number?
+                testRate = price ?:-1 as Number
                 console.log(testRate)
                 delay(1000)
             }
         }
     }
+
 
     override fun RBuilder.render() {
         nav(classes = "navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0") {
