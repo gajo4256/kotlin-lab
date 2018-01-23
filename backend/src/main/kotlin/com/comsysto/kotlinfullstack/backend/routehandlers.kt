@@ -24,6 +24,12 @@ class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface) 
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
     }
+
+    fun getCurrencyKeys(request: ServerRequest): Mono<ServerResponse> =
+            ServerResponse
+                    .ok()
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .body(cryptoStockService.getAvailableCurrencies(), typeRef<List<String>>())
 }
 
 class ErrorResponse(val message: String)

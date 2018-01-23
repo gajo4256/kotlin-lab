@@ -44,4 +44,9 @@ internal class CryptoStockServiceTest {
                 })
                 .verifyComplete()
     }
+
+    @Test
+    fun `getAvailableCurrencies returns list of attached inbound data repositories`() {
+        StepVerifier.create(testee.getAvailableCurrencies()).expectNext(currencyKeys).verifyComplete()
+    }
 }

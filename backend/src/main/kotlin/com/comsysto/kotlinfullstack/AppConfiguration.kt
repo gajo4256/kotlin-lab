@@ -22,6 +22,9 @@ class AppConfiguration {
         "/stocks".nest {
             GET("/", routeHandler::cryptoStockTicker)
         }
+        "/config".nest {
+            GET ("/currencies", routeHandler::getCurrencyKeys)
+        }
     }
 
     @Bean

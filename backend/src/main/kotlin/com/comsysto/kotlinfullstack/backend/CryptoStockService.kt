@@ -2,6 +2,8 @@ package com.comsysto.kotlinfullstack.backend
 
 import com.comsysto.kotlinfullstack.backend.inbound.CurrencyDataRepository
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.core.publisher.toMono
 import java.time.ZonedDateTime
 
 class CryptoStockService(dataRepositories: List<CurrencyDataRepository>) : CryptoStockServiceInterface {
@@ -18,5 +20,6 @@ class CryptoStockService(dataRepositories: List<CurrencyDataRepository>) : Crypt
                         }
             })
 
+    override fun getAvailableCurrencies(): Mono<List<String>> = inboundRepos.keys.toList().toMono()
 
 }
