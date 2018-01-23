@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
+import org.springframework.http.MediaType
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.router
@@ -21,6 +22,11 @@ class AppConfiguration {
     fun routes(routeHandler: RouteHandler) = router {
         "/stocks".nest {
             GET("/", routeHandler::cryptoStockTicker)
+        }
+        "/subscriptions".nest {
+            accept(MediaType.APPLICATION_JSON).nest {
+                POST("/", routeHandler::createSubScription)
+            }
         }
         "/config".nest {
             GET ("/currencies", routeHandler::getCurrencyKeys)
@@ -44,4 +50,7 @@ class AppConfiguration {
 
     @Bean
     fun meterService(): MeterService = MeterService(meteredCryptoStockService())
+
+    @Bean
+    fun subscriptionRepository():SubscriptionRepository = SubscriptionRepository()
 }

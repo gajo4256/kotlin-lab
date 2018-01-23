@@ -4,10 +4,14 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.bodyToServerSentEvents
 import reactor.core.publisher.Mono
+import java.net.URI
+import java.util.*
 
 @Component
-class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface) {
+class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface,
+                   private val subscriptionRepository: SubscriptionRepository) {
 
     fun cryptoStockTicker(request: ServerRequest): Mono<ServerResponse> {
 
@@ -20,9 +24,16 @@ class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface) 
                             ErrorResponse::class.java
                     )
         }
-        return ServerResponse.ok()
-                .contentType(MediaType.TEXT_EVENT_STREAM)
-                .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
+        return ServerResponse.ok().bodyToServerSentEvents(cryptoStockService.currentPriceStream(currencies))
+    }
+
+    fun createSubScription(request: ServerRequest): Mono<ServerResponse> {
+        return request.bodyToMono(CreateSubscriptionRequest::class.java).flatMap {
+            val uuid = UUID.randomUUID().toString()
+            subscriptionRepository.put(uuid, it.currencies)
+            ServerResponse.created(URI.create("http://localhost:9090/subscriptions/${uuid}")).syncBody(uuid)
+        }
+
     }
 
     fun getCurrencyKeys(request: ServerRequest): Mono<ServerResponse> =
@@ -33,3 +44,5 @@ class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface) 
 }
 
 class ErrorResponse(val message: String)
+
+data class CreateSubscriptionRequest(val currencies: List<String>)
