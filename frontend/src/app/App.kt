@@ -1,11 +1,14 @@
 package app
 
+import components.currencyChart.CurrencyChart
+import components.currencyChart.currencyChart
 import components.currencyTile.currencyTile
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import react.*
 import react.dom.*
 import service.StockService
+import kotlin.js.Date
 
 interface AppProps : RProps {
     var stockService: StockService
@@ -18,6 +21,8 @@ interface AppState : RState {
 }
 
 class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
+
+    var cryptoData = listOf(CryptoData("BTC", Date(), 110.0), CryptoData("BTC", Date(), 9000.0), CryptoData("BTC", Date(), 7000.0))
 
     override fun AppState.init(props: AppProps) {
         ethRate = 0.0
@@ -63,6 +68,10 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
 //            currencyTile("Bitcoin", 9999.34532, 123.0, 540.0)
             currencyTile("Ethereum", state.ethRate, state.minEthRate, state.maxEthRate)
 //            currencyTile("Monero", 288)
+        }
+
+        div {
+            currencyChart(cryptoData)
         }
 
         footer(classes = "footer") {

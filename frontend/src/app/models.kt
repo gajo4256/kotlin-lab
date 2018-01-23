@@ -1,4 +1,5 @@
 package app
 
-data class Message(val message: String)
+import kotlin.js.Date
 
+data class CryptoData(var currency: String, var date: Date, var price: Double)
