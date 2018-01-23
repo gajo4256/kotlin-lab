@@ -25,7 +25,8 @@ class AppConfiguration {
         }
         "/subscriptions".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                POST("/", routeHandler::createSubScription)
+                POST("/", routeHandler::createSubscription)
+                GET("/{uuid}", routeHandler::streamSubscription)
             }
         }
         "/config".nest {

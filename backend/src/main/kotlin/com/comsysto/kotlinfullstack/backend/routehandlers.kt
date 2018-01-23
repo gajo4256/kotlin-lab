@@ -27,13 +27,18 @@ class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface,
         return ServerResponse.ok().bodyToServerSentEvents(cryptoStockService.currentPriceStream(currencies))
     }
 
-    fun createSubScription(request: ServerRequest): Mono<ServerResponse> {
+    fun createSubscription(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToMono(CreateSubscriptionRequest::class.java).flatMap {
             val uuid = UUID.randomUUID().toString()
             subscriptionRepository.put(uuid, it.currencies)
             ServerResponse.created(URI.create("http://localhost:9090/subscriptions/${uuid}")).syncBody(uuid)
         }
+    }
 
+    fun streamSubscription(request: ServerRequest): Mono<ServerResponse> {
+        val uuid = request.pathVariable("uuid")
+        val currencies = subscriptionRepository.get(uuid).orEmpty()
+        return ServerResponse.ok().bodyToServerSentEvents(cryptoStockService.currentPriceStream(currencies))
     }
 
     fun getCurrencyKeys(request: ServerRequest): Mono<ServerResponse> =
