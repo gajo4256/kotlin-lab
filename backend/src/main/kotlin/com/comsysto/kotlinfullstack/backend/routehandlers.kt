@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
 @Component
-class RouteHandler(private val cryptoStockService: CryptoStockService) {
+class RouteHandler(private val cryptoStockService: CryptoStockServiceInterface) {
 
     fun cryptoStockTicker(request: ServerRequest): Mono<ServerResponse> {
 
