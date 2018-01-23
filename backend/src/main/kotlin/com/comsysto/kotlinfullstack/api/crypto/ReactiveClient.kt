@@ -2,8 +2,6 @@ package com.comsysto.kotlinfullstack.api.crypto
 
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.bodyToFlux
-import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -15,7 +13,8 @@ class ReactiveClient constructor(val client: WebClient) {
             .get()
             .uri("currencies")
             .retrieve()
-            .bodyToMono()
+            .bodyToMono(CurrencyMetaDataResponse::class.java)
+            .log()
     }
 
     fun getExchangeRatesFor(currency: String? = "USD"): Flux<ExchangeRateMetaDataResponse> {
@@ -23,7 +22,20 @@ class ReactiveClient constructor(val client: WebClient) {
             .get()
             .uri("exchange-rates?currency=$currency")
             .retrieve()
-            .bodyToFlux()
+            .bodyToFlux(ExchangeRateMetaDataResponse::class.java)
+            .log()
+    }
+
+    /**
+     * Get the current market price for coin. This is usually somewhere in between the buy and sell price.
+     */
+    fun getSpotPrice(cryptoCurrency: String, currency: String? = "USD"): Flux<SpotPriceMetaDataResponse> {
+        return client
+            .get()
+            .uri("prices/$cryptoCurrency-$currency/spot")
+            .retrieve()
+            .bodyToFlux(SpotPriceMetaDataResponse::class.java)
+            .log()
     }
 
 }

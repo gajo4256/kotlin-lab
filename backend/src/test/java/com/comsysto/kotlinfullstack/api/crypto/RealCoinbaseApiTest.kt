@@ -1,5 +1,7 @@
 package com.comsysto.kotlinfullstack.api.crypto
 
+import assertk.assert
+import assertk.assertions.isNotNull
 import org.junit.Test
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -17,6 +19,10 @@ class RealCoinbaseApiTest {
                 .uri("currencies")
                 .exchange()
                 .expectStatus().isOk
+                .expectBody()
+                .consumeWith({
+                    response -> assert(response.responseBody).isNotNull()
+                })
     }
 
     @Test
@@ -26,6 +32,10 @@ class RealCoinbaseApiTest {
                 .uri("exchange-rates?currency=USD")
                 .exchange()
                 .expectStatus().isOk
+                .expectBody()
+                .consumeWith({
+                    response -> assert(response.responseBody).isNotNull()
+                })
     }
     
 }
