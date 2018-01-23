@@ -15,7 +15,7 @@ class StockService(eventSource: EventSource = EventSource("http://localhost:9090
             while (true) {
                 try {
                     yield(currentStock)
-                } catch (e:UninitializedPropertyAccessException) {
+                } catch (e: UninitializedPropertyAccessException) {
                     yield(null)
                 }
             }
@@ -26,7 +26,7 @@ class StockService(eventSource: EventSource = EventSource("http://localhost:9090
     init {
         val onMessage = { event: Event ->
             val json: Json = event as Json
-            currentStock= JSON.parse(json["data"] as String)
+            currentStock = JSON.parse(json["data"] as String)
         }
         eventSource.onmessage = onMessage
     }

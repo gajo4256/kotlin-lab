@@ -11,8 +11,8 @@ class RouteHandler(private val cryptoStockService: CryptoStockService) {
 
     fun cryptoStockTicker(request: ServerRequest): Mono<ServerResponse> {
 
-        val currencies = request.queryParams().get("currency")
-        if (currencies == null || currencies.isEmpty()) {
+        val currencies = request.queryParams().get("currency")?: emptyList()
+        if (currencies.isEmpty()) {
             return ServerResponse.badRequest()
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .body(
@@ -23,8 +23,6 @@ class RouteHandler(private val cryptoStockService: CryptoStockService) {
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(cryptoStockService.currentPriceStream(currencies), CryptoStock::class.java)
-
-
     }
 }
 
