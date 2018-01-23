@@ -8,20 +8,18 @@ import kotlin.js.Json
 
 class StockService(eventSource: EventSource = EventSource("http://localhost:9090/stocks?currency=ETH")) {
 
-    lateinit var currentStock: Json
+    private lateinit var currentStock: Json
 
-    private val iterator: Iterator<Json?> by lazy {
-        val iterator = buildIterator({
-            while (true) {
-                try {
-                    yield(currentStock)
-                } catch (e: UninitializedPropertyAccessException) {
-                    yield(null)
-                }
+    private val iterator = buildIterator({
+        while (true) {
+            try {
+                yield(currentStock)
+            } catch (e: UninitializedPropertyAccessException) {
+                yield(null)
             }
-        })
-        iterator
-    }
+        }
+    })
+
 
     init {
         val onMessage = { event: Event ->
