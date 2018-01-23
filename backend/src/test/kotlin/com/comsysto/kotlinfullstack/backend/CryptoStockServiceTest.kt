@@ -21,16 +21,14 @@ internal class CryptoStockServiceTest {
     @Before
     fun setUp() {
         val repositoryMock = object : CurrencyDataRepository {
+            override fun dataStream(): Flux<BigDecimal> = valuesList.toFlux()
             override fun currencyKey(): String = currencyKeys[0]
-            override fun dataStream(): Flux<BigDecimal> {
-                return valuesList.toFlux()
-            }
         }
         testee = CryptoStockService(listOf(repositoryMock))
     }
 
     @Test
-    fun currentPriceStream() {
+    fun `currentPriceStream returns Elements retrieved by the backing repository`() {
         StepVerifier.create(testee.currentPriceStream(currencyKeys.subList(0, 1)))
                 .consumeNextWith({
                     assertAll {
