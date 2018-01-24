@@ -33,6 +33,7 @@ dependencies {
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutines_version}")
     compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compile(project(":domain-model"))
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
     testCompile('io.projectreactor:reactor-test')

@@ -1,5 +1,6 @@
 package com.comsysto.kotlinfullstack.backend
 
+import com.comsysto.kotlinfullstack.api.model.CryptoStock
 import org.springframework.scheduling.annotation.Scheduled
 import reactor.core.publisher.Flux
 

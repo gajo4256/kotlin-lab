@@ -2,9 +2,11 @@ package com.comsysto.kotlinfullstack.backend
 
 import assertk.assert
 import assertk.assertions.isEqualTo
+import com.comsysto.kotlinfullstack.api.model.CryptoStock
 import kotlinx.coroutines.experimental.reactor.flux
 import org.junit.Test
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 import java.math.BigDecimal
 import java.time.ZonedDateTime
@@ -12,9 +14,13 @@ import java.time.ZonedDateTime
 class CachingCryptoStockServiceDecoratorTest {
 
     private var service: CryptoStockServiceInterface = object : CryptoStockServiceInterface {
+        override fun getAvailableCurrencies(): Mono<List<String>> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
         override fun currentPriceStream(currencyKeys: List<String>): Flux<CryptoStock> = flux {
             while (true) {
-                send(CryptoStock("narf", ZonedDateTime.now(), BigDecimal.valueOf(Math.random())))
+                send(CryptoStock("narf", ZonedDateTime.now(), BigDecimal.valueOf(Math.random()).toDouble()))
             }
         }
 

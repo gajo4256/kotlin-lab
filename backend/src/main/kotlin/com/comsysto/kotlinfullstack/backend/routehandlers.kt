@@ -1,5 +1,6 @@
 package com.comsysto.kotlinfullstack.backend
 
+import com.comsysto.kotlinfullstack.api.model.CryptoStock
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest

@@ -1,0 +1,27 @@
+version = '0.0.1-SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin_version}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+repositories {
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}") // necessary otherwise we receive an additional 1.1.61 transitive dependency...
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

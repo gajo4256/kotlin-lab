@@ -1,5 +1,6 @@
 package com.comsysto.kotlinfullstack.backend
 
+import com.comsysto.kotlinfullstack.api.model.CryptoStock
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
