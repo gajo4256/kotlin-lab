@@ -40,7 +40,7 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
                 if (data != null) {
                     updateExchangeRates(data)
                 }
-                delay(3000)
+                delay(1000)
             }
         }
     }
@@ -60,9 +60,11 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         when (currency) {
             "ETH" -> setState {
                 etcStocks.appendAndTrim(cryptoData)
+                ltcStocks.appendAndTrim(ltcStocks.last())
             }
             "LTC" -> setState {
                 ltcStocks.appendAndTrim(cryptoData)
+                etcStocks.appendAndTrim(etcStocks.last())
             }
         }
     }

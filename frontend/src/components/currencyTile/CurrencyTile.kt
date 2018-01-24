@@ -5,7 +5,6 @@ import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.div
-import react.dom.span
 import react.dom.strong
 
 interface CurrencyTileProps : RProps {
@@ -38,21 +37,18 @@ class CurrencyTile(props: CurrencyTileProps) : RComponent<CurrencyTileProps, Cur
             }
             div(classes = "prices") {
                 div(classes = "price") {
-                    +"€ "
-                    span(classes = "odometer") {
-                        +props.price.toString()
+                    +formatCurrency(props.price)
+                }
+                div {
+                    +"min: € "
+                    strong(classes="odometer") {
+                        +if (minPrice == PRICE_NOT_SET) "-" else minPrice.toString()
                     }
                 }
                 div {
-                    +"min: "
-                    strong {
-                        +if (minPrice == PRICE_NOT_SET) "-" else formatCurrency(minPrice)
-                    }
-                }
-                div {
-                    +"max: "
-                    strong {
-                        +if (maxPrice == PRICE_NOT_SET) "-" else formatCurrency(maxPrice)
+                    +"max: € "
+                    strong(classes="odometer") {
+                        +if (maxPrice == PRICE_NOT_SET) "-" else maxPrice.toString()
                     }
                 }
             }
