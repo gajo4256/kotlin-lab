@@ -24,6 +24,9 @@ class CachingCryptoStockServiceDecoratorTest {
             }
         }
 
+        override fun getAvailableCurrencies(): Mono<List<String>> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
     }
 
     private var testee: CachingCryptoStockServiceDecorator = CachingCryptoStockServiceDecorator(service)
@@ -37,9 +40,9 @@ class CachingCryptoStockServiceDecoratorTest {
         var secondSubscription = emptyList<CryptoStock>()
 
 
-        StepVerifier.create(testee.currentPriceStream(currencyKeys).take(3))
+        StepVerifier.create(Flux.from(testee.currentPriceStream(currencyKeys)).take(3))
                 .consumeNextWith {
-                    testee.currentPriceStream(permutedCurrencyKeys).take(2).subscribe { collected ->
+                    Flux.from(testee.currentPriceStream(permutedCurrencyKeys)).take(2).subscribe { collected ->
                         secondSubscription += collected
                     }
                 }
