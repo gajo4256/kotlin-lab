@@ -6,7 +6,7 @@ import kotlin.coroutines.experimental.buildIterator
 import kotlin.js.Json
 
 
-class StockService(eventSource: EventSource = EventSource("http://localhost:9090/stocks?currency=ETH")) {
+class StockService(eventSource: EventSource = EventSource("http://localhost:9090/stocks?currency=ETH&currency=LTC")) {
 
     private lateinit var currentStock: Json
 

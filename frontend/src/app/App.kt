@@ -7,6 +7,8 @@ import kotlinx.coroutines.experimental.launch
 import react.*
 import react.dom.*
 import service.StockService
+import kotlin.js.Date
+import kotlin.js.Json
 
 interface AppProps : RProps {
     var stockService: StockService
@@ -17,6 +19,8 @@ interface AppState : RState {
     var minEthRate: Double
     var maxEthRate: Double
     var rateList: MutableList<Double>
+    var ethRates: MutableList<CryptoData>
+    var ltcRates: MutableList<CryptoData>
 }
 
 class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
@@ -26,22 +30,56 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         minEthRate = 9999999999.0
         maxEthRate = 0.0
         rateList = mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        ethRates = mutableListOf(*emptyCryptoData("ETH"))
+        ltcRates = mutableListOf(*emptyCryptoData("LTC"))
+    }
+
+    fun emptyCryptoData(currency: String): Array<CryptoData> {
+        return (1..10).map { CryptoData(currency, Date(), 0.0) }.toTypedArray()
     }
 
     override fun componentDidMount() {
         val iterator = props.stockService.getStockStream()
 
         launch {
-            for (x in iterator) {
-                val price = x?.get("price") as Double?
+            for (data in iterator) {
+                if (data != null) {
+                    updateExchangeRates(data)
+                }
+                val price = data?.get("price") as Double?
                 val rate = price ?: -1.0
                 if (rate != -1.0) {
                     updateRate(rate)
+
                 }
                 delay(1000)
 
             }
         }
+    }
+
+    fun MutableList<CryptoData>.appendAndTrim(element: CryptoData) {
+        this.removeAt(0)
+        this.add(element)
+    }
+
+    private fun updateExchangeRates(data: Json) {
+        var currency: String = data["currency"] as String
+        var date: Date = Date() // TODO: figure out how we can create a date from String
+        var price: Double = data["price"] as Double
+
+        var cryptoData = CryptoData(currency, date, price)
+        console.log(currency)
+        when (currency) {
+            "ETH" -> setState {
+                ethRates.appendAndTrim(cryptoData)
+                console.log("Updated ethRates:", ethRates)
+            }
+            "LTC" -> setState {
+                ltcRates.appendAndTrim(cryptoData)
+            }
+        }
+
     }
 
     private fun updateRate(rate: Double) {
@@ -57,7 +95,6 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
     }
 
     override fun RBuilder.render() {
-        console.log(state.ethRate)
         nav(classes = "navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0") {
             key = "header"
             a(classes = "navbar-brand col-sm-3 col-md-2 mr-0", href = "#") {
@@ -66,8 +103,8 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         }
 
         div(classes = "currency-tiles") {
-            //            currencyTile("Bitcoin", 9999.34532, 123.0, 540.0)
-            currencyTile("Ethereum", state.ethRate, state.minEthRate, state.maxEthRate)
+            currencyTile("Ethereum", state.ethRates.last().price)
+            currencyTile("Litecoin", state.ltcRates.last().price)
 //            currencyTile("Monero", 288)
         }
 
