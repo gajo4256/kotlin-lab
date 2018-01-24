@@ -1,5 +1,7 @@
 package app
 
+import com.comsysto.kotlinfullstack.CryptoStock
+import com.comsysto.kotlinfullstack.Date
 import components.currencyChart.currencyChart
 import components.currencyTile.currencyTile
 import kotlinx.coroutines.experimental.delay
@@ -7,14 +9,11 @@ import kotlinx.coroutines.experimental.launch
 import react.*
 import react.dom.*
 import service.StockService
-import kotlin.js.Date
 import kotlin.js.Json
 
 interface AppProps : RProps {
     var stockService: StockService
 }
-
-data class CryptoStock(val currency: String, val date: Double, val price: Double)
 
 interface AppState : RState {
     var etcStocks: MutableList<CryptoStock>
@@ -29,7 +28,7 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
     }
 
     fun emptyCryptoStockData(currency: String): Array<CryptoStock> {
-        return (1..20).map { CryptoStock(currency, Date().getTime(), 0.0) }.toTypedArray()
+        return (1..20).map { CryptoStock(currency, Date(), 0.0) }.toTypedArray()
     }
 
     override fun componentDidMount() {
@@ -52,11 +51,10 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
 
     private fun updateExchangeRates(data: Json) {
         var currency: String = data["currency"] as String
-        var date: Double = Date().getTime() // TODO: figure out how we can create a date from String
+        var date: Date = Date() // TODO: figure out how we can create a date from String
         var price: Double = data["price"] as Double
 
         var cryptoData = CryptoStock(currency, date, price)
-
         when (currency) {
             "ETH" -> setState {
                 etcStocks.appendAndTrim(cryptoData)

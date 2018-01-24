@@ -1,6 +1,6 @@
 package components.currencyChart
 
-import app.CryptoStock
+import com.comsysto.kotlinfullstack.CryptoStock
 import kotlinx.html.id
 import react.RBuilder
 import react.RComponent

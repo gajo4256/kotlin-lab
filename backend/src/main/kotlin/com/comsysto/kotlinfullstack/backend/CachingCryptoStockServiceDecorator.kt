@@ -1,6 +1,6 @@
 package com.comsysto.kotlinfullstack.backend
 
-import com.comsysto.kotlinfullstack.api.model.CryptoStock
+import com.comsysto.kotlinfullstack.CryptoStock
 import reactor.core.publisher.Flux
 
 class CachingCryptoStockServiceDecorator(private val subject: CryptoStockServiceInterface) : CryptoStockServiceInterface by subject {

@@ -1,2 +1,7 @@
 rootProject.name = 'kotlin-lab'
-include "backend", "frontend", "gatling_test", "domain-model"
+include 'frontend'
+include 'backend'
+include 'gatling_test'
+include 'common'
+include 'common-jvm'
+include 'common-js'

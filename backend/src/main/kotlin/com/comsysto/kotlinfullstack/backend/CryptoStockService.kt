@@ -1,11 +1,11 @@
 package com.comsysto.kotlinfullstack.backend
 
-import com.comsysto.kotlinfullstack.api.model.CryptoStock
+import com.comsysto.kotlinfullstack.CryptoStock
+import com.comsysto.kotlinfullstack.Date
 import com.comsysto.kotlinfullstack.backend.inbound.CurrencyDataRepository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
-import java.time.ZonedDateTime
 
 class CryptoStockService(dataRepositories: List<CurrencyDataRepository>) : CryptoStockServiceInterface {
 
@@ -17,7 +17,7 @@ class CryptoStockService(dataRepositories: List<CurrencyDataRepository>) : Crypt
                         .getOrElse(it, { throw RuntimeException("unknown currencyKey $it") })
                         .dataStream()
                         .map { number ->
-                            CryptoStock(it, ZonedDateTime.now(), number.toDouble())
+                            CryptoStock(it, Date(), number.toDouble())
                         }
             })
 
