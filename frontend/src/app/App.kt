@@ -17,26 +17,18 @@ interface AppProps : RProps {
 data class CryptoStock(val currency: String, val date: Double, val price: Double)
 
 interface AppState : RState {
-    var ethRate: Double
-    var minEthRate: Double
-    var maxEthRate: Double
-    var rateList: MutableList<Double>
-    var ethRates: MutableList<CryptoStock>
-    var ltcRates: MutableList<CryptoStock>
+    var etcStocks: MutableList<CryptoStock>
+    var ltcStocks: MutableList<CryptoStock>
 }
 
 class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
 
     override fun AppState.init(props: AppProps) {
-        ethRate = 0.0
-        minEthRate = 9999999999.0
-        maxEthRate = 0.0
-        rateList = mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-        ethRates = mutableListOf(*emptyCryptoStock("ETH"))
-        ltcRates = mutableListOf(*emptyCryptoStock("LTC"))
+        etcStocks = mutableListOf(*emptyCryptoStockData("ETH"))
+        ltcStocks = mutableListOf(*emptyCryptoStockData("LTC"))
     }
 
-    fun emptyCryptoStock(currency: String): Array<CryptoStock> {
+    fun emptyCryptoStockData(currency: String): Array<CryptoStock> {
         return (1..10).map { CryptoStock(currency, Date().getTime(), 0.0) }.toTypedArray()
     }
 
@@ -48,14 +40,7 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
                 if (data != null) {
                     updateExchangeRates(data)
                 }
-                val price = data?.get("price") as Double?
-                val rate = price ?: -1.0
-                if (rate != -1.0) {
-                    updateRate(rate)
-
-                }
                 delay(3000)
-
             }
         }
     }
@@ -71,28 +56,14 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         var price: Double = data["price"] as Double
 
         var cryptoData = CryptoStock(currency, date, price)
-        console.log(currency)
+
         when (currency) {
             "ETH" -> setState {
-                ethRates.appendAndTrim(cryptoData)
-                console.log("Updated ethRates:", ethRates)
+                etcStocks.appendAndTrim(cryptoData)
             }
             "LTC" -> setState {
-                ltcRates.appendAndTrim(cryptoData)
+                ltcStocks.appendAndTrim(cryptoData)
             }
-        }
-
-    }
-
-    private fun updateRate(rate: Double) {
-        val newList: MutableList<Double> = state.rateList
-        newList.removeAt(0)
-        newList.add(rate)
-        setState {
-            ethRate = rate
-            minEthRate = minOf(rate, minEthRate)
-            maxEthRate = maxOf(rate, maxEthRate)
-            rateList = newList
         }
     }
 
@@ -104,19 +75,29 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
             }
         }
 
-        div(classes = "currency-tiles") {
-            currencyTile("Ethereum", state.ethRates.last().price)
-            currencyTile("Litecoin", state.ltcRates.last().price)
-//            currencyTile("Monero", 288)
+        div(classes="jumbotron") {
+            div(classes="container") {
+                h1(classes="display-3") {
+                    +"Cryptocurrency Stocks"
+                }
+            }
         }
 
-        div {
-            currencyChart(state.rateList)
+        div(classes="container") {
+            div(classes = "currency-tiles") {
+                currencyTile("Ethereum", state.etcStocks.last().price, "currency-tile--eth")
+                currencyTile("Litecoin", state.ltcStocks.last().price, "currency-tile--ltc")
+//            currencyTile("Monero", 288)
+            }
+
+            div {
+                currencyChart(state.etcStocks, state.ltcStocks)
+            }
         }
 
         footer(classes = "footer") {
             key = "footer"
-            div(classes = "container") {
+            div(classes = "container text-center") {
                 span(classes = "text-muted") {
                     +"comSysto 2018"
                 }

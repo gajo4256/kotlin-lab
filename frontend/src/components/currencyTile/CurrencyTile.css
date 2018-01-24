@@ -1,11 +1,18 @@
 .currency-tile {
     color: white;
-    background: darkcyan;
     display: flex;
     align-items: center;
     padding: 1.5em;
     justify-content: space-between;
     box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
+}
+
+.currency-tile--eth {
+    background-color: #3E95CD;
+}
+
+.currency-tile--ltc {
+    background-color: #EE0000;
 }
 
 .currency-title {

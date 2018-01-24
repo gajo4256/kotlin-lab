@@ -11,6 +11,7 @@ import react.dom.strong
 interface CurrencyTileProps : RProps {
     var currencyName: String
     var price: Double
+    var cssClass: String
 }
 
 interface CurrencyTileState : RState {
@@ -30,7 +31,7 @@ class CurrencyTile(props: CurrencyTileProps) : RComponent<CurrencyTileProps, Cur
     }
 
     override fun RBuilder.render() {
-        div(classes = "currency-tile") {
+        div(classes = "currency-tile ${props.cssClass}") {
             key = "currencyTile"
             div(classes = "currency-title") {
                 +props.currencyName
@@ -69,9 +70,10 @@ fun formatCurrency(amount: Double): String {
     return "€ ${amount.asDynamic().toFixed(2)}"
 }
 
-fun RBuilder.currencyTile(currencyName: String, rate: Double) = child(CurrencyTile::class) {
+fun RBuilder.currencyTile(currencyName: String, rate: Double, cssClass: String) = child(CurrencyTile::class) {
     attrs.currencyName = currencyName
     attrs.price = rate
+    attrs.cssClass = cssClass
 }
 
 
