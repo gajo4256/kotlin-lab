@@ -14,13 +14,15 @@ interface AppProps : RProps {
     var stockService: StockService
 }
 
+data class CryptoStock(val currency: String, val date: Double, val price: Double)
+
 interface AppState : RState {
     var ethRate: Double
     var minEthRate: Double
     var maxEthRate: Double
     var rateList: MutableList<Double>
-    var ethRates: MutableList<CryptoData>
-    var ltcRates: MutableList<CryptoData>
+    var ethRates: MutableList<CryptoStock>
+    var ltcRates: MutableList<CryptoStock>
 }
 
 class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
@@ -30,12 +32,12 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
         minEthRate = 9999999999.0
         maxEthRate = 0.0
         rateList = mutableListOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-        ethRates = mutableListOf(*emptyCryptoData("ETH"))
-        ltcRates = mutableListOf(*emptyCryptoData("LTC"))
+        ethRates = mutableListOf(*emptyCryptoStock("ETH"))
+        ltcRates = mutableListOf(*emptyCryptoStock("LTC"))
     }
 
-    fun emptyCryptoData(currency: String): Array<CryptoData> {
-        return (1..10).map { CryptoData(currency, Date(), 0.0) }.toTypedArray()
+    fun emptyCryptoStock(currency: String): Array<CryptoStock> {
+        return (1..10).map { CryptoStock(currency, Date().getTime(), 0.0) }.toTypedArray()
     }
 
     override fun componentDidMount() {
@@ -52,23 +54,23 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
                     updateRate(rate)
 
                 }
-                delay(1000)
+                delay(3000)
 
             }
         }
     }
 
-    fun MutableList<CryptoData>.appendAndTrim(element: CryptoData) {
+    fun MutableList<CryptoStock>.appendAndTrim(element: CryptoStock) {
         this.removeAt(0)
         this.add(element)
     }
 
     private fun updateExchangeRates(data: Json) {
         var currency: String = data["currency"] as String
-        var date: Date = Date() // TODO: figure out how we can create a date from String
+        var date: Double = Date().getTime() // TODO: figure out how we can create a date from String
         var price: Double = data["price"] as Double
 
-        var cryptoData = CryptoData(currency, date, price)
+        var cryptoData = CryptoStock(currency, date, price)
         console.log(currency)
         when (currency) {
             "ETH" -> setState {
