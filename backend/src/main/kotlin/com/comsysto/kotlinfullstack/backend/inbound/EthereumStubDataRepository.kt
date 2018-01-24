@@ -8,14 +8,12 @@ import reactor.core.publisher.Flux
 import java.math.BigDecimal
 
 @Component
-class EthereumStubDataRepository : CurrencyDataRepository {
+class EthereumStubDataRepository(
+        @Value("\${inbound.stubs.throttle.eth}") val throttleValue: Long) : CurrencyDataRepository {
 
     override fun currencyKey(): String {
         return "ETH"
     }
-
-    @Value("\${inbound.stubs.throttle:100}")
-    var throttleValue: Int = 100
 
     override fun dataStream(): Flux<BigDecimal> {
         return flux {

@@ -1,3 +1,10 @@
 coinbase:
   api:
     url: https://api.coinbase.com/v2/
+  inbound:
+    channel:
+      # rest call delay to coinbase api for different crypto currencies
+      throttle:
+        btc: 1000
+        eth: 100
+        ltc: 2000

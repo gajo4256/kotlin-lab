@@ -12,7 +12,7 @@ import java.time.Duration
 @Profile("coinbase")
 @Component
 class BitcoinRepository(private val client: ReactiveClient,
-                        @Value("\${inbound.channel.remote.btc}") val throttle: Long) : CurrencyDataRepository {
+                        @Value("\${coinbase.inbound.channel.throttle.btc}") val throttleValue: Long) : CurrencyDataRepository {
 
     override fun currencyKey(): String {
         return "BTC"
@@ -22,7 +22,7 @@ class BitcoinRepository(private val client: ReactiveClient,
         return client
                 .getSpotPrice(currencyKey())
                 .map { BigDecimal(it.data.amount) }
-                .delaySubscription(Duration.ofMillis(throttle))
+                .delaySubscription(Duration.ofMillis(throttleValue))
                 .repeat()
     }
 }

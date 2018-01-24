@@ -12,7 +12,7 @@ import java.time.Duration
 @Profile("coinbase")
 @Component
 class LitecoinRepository(private val client: ReactiveClient,
-                         @Value("\${inbound.channel.remote.ltc}") val throttle: Long) : CurrencyDataRepository {
+                         @Value("\${coinbase.inbound.channel.throttle.ltc}") val throttleValue: Long) : CurrencyDataRepository {
 
     override fun currencyKey(): String {
         return "LTC"
@@ -21,7 +21,7 @@ class LitecoinRepository(private val client: ReactiveClient,
         return client
                 .getSpotPrice(currencyKey())
                 .map { BigDecimal(it.data.amount) }
-                .delaySubscription(Duration.ofMillis(throttle))
+                .delaySubscription(Duration.ofMillis(throttleValue))
                 .repeat()
     }
 }
