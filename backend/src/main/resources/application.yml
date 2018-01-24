@@ -15,6 +15,3 @@ logging:
     org.springframework.web: DEBUG
 
 management.endpoints.web.expose: "*"
-
-
-coinbase.api.url: https://api.coinbase.com/v2/
