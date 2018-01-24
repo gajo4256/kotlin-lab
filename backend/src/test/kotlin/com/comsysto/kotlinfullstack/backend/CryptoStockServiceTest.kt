@@ -33,13 +33,13 @@ internal class CryptoStockServiceTest {
                 .consumeNextWith({
                     assertAll {
                         assert(it.currency).isEqualTo(currencyKeys[0])
-                        assert(it.price).isEqualTo(valuesList[0])
+                        assert(it.price).isEqualTo(valuesList[0].toDouble())
                     }
                 })
                 .consumeNextWith({
                     assertAll {
                         assert(it.currency).isEqualTo(currencyKeys[0])
-                        assert(it.price).isEqualTo(valuesList[1])
+                        assert(it.price).isEqualTo(valuesList[1].toDouble())
                     }
                 })
                 .verifyComplete()
