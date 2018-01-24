@@ -36,21 +36,21 @@ class CurrencyChart() : RComponent<CurrencyChartProps, RState>() {
     }
 
     override fun componentDidMount() {
-
-
         eval("""
             window.chart = new Chart(document.getElementById("cryptoChart"), {
                 type: 'line',
                 data: {
-                    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                     datasets: [{
                         data: ${props.ethStocks.prices()},
                         label: "ETH",
+                        lineTension: 0,
                         borderColor: "#3e95cd",
                         fill: false
                       }, {
                       data: ${props.ltcStocks.prices()},
                         label: "LTC",
+                        lineTension: 0,
                         borderColor: "#EE0000",
                         fill: false
                       }
@@ -59,7 +59,7 @@ class CurrencyChart() : RComponent<CurrencyChartProps, RState>() {
               options: {
                 title: {
                   display: true,
-                  text: '#insertCurrency Price Chart Euro (#currency/EUR)'
+                  text: 'Cryptocurrency Stock Trend'
                 }
               }
             });

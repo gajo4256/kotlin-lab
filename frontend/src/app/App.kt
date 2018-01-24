@@ -29,7 +29,7 @@ class App(props: AppProps) : RComponent<AppProps, AppState>(props) {
     }
 
     fun emptyCryptoStockData(currency: String): Array<CryptoStock> {
-        return (1..10).map { CryptoStock(currency, Date().getTime(), 0.0) }.toTypedArray()
+        return (1..20).map { CryptoStock(currency, Date().getTime(), 0.0) }.toTypedArray()
     }
 
     override fun componentDidMount() {
