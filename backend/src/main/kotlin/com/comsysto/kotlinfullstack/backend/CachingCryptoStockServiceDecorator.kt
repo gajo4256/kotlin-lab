@@ -13,5 +13,3 @@ class CachingCryptoStockServiceDecorator(private val subject: CryptoStockService
                 Flux.from(publisher).publish().refCount()
             }
 }
-
-

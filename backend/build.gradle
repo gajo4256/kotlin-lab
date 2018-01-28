@@ -34,7 +34,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux:${spring_boot_version}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile project(":common-jvm")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")

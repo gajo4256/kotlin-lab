@@ -24,6 +24,9 @@ class CachingCryptoStockServiceDecoratorTest {
             }
         }
 
+        override fun getAvailableCurrencies(): Mono<List<String>> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
     }
 
     private var testee: CachingCryptoStockServiceDecorator = CachingCryptoStockServiceDecorator(service)
