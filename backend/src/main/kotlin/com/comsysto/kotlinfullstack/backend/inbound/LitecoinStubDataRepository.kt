@@ -17,7 +17,6 @@ class LitecoinStubDataRepository(
 
     override fun dataStream(): Flux<BigDecimal> {
         val flux = flux {
-            println("constructing datastream for ${currencyKey()}")
             while (true) {
                 delay(throttleValue)
                 val result = BigDecimal(Math.random() * 4711)
