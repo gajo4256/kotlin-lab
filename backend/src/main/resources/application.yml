@@ -1,6 +1,10 @@
 inbound:
   stubs:
-    throttle: 100 # throttle im ms
+    throttle:
+      # throttle im ms
+      btc: 1000
+      eth: 100
+      ltc: 2000
 server:
   port: 9090
 
