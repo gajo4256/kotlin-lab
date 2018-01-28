@@ -2,7 +2,6 @@ package com.comsysto.kotlinfullstack
 
 import com.comsysto.kotlinfullstack.backend.*
 import com.comsysto.kotlinfullstack.backend.inbound.CurrencyDataRepository
-import com.comsysto.kotlinfullstack.backend.subscription.SubscriptionRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,7 +29,7 @@ class AppConfiguration {
             }
         }
         "/config".nest {
-            GET ("/currencies", routeHandler::getCurrencyKeys)
+            GET("/currencies", routeHandler::getCurrencyKeys)
         }
     }
 

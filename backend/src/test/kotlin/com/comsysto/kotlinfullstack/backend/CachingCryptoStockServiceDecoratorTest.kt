@@ -23,10 +23,6 @@ class CachingCryptoStockServiceDecoratorTest {
                 send(CryptoStock("narf", Date(), BigDecimal.valueOf(Math.random()).toDouble()))
             }
         }
-
-        override fun getAvailableCurrencies(): Mono<List<String>> {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
     }
 
     private var testee: CachingCryptoStockServiceDecorator = CachingCryptoStockServiceDecorator(service)
