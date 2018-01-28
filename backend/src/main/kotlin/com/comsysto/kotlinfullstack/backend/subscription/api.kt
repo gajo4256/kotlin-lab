@@ -1,6 +1,6 @@
 package com.comsysto.kotlinfullstack.backend.subscription
 
-import com.comsysto.kotlinfullstack.backend.CryptoStock
+import com.comsysto.kotlinfullstack.CryptoStock
 import org.reactivestreams.Publisher
 import org.reactivestreams.Subscriber
 import reactor.core.publisher.Flux
@@ -29,7 +29,7 @@ sealed class CurrencyStockSubscription {
 
 class SubscribedCurrenciesStream(var currencies: List<String>, stream: Publisher<CryptoStock>) : Publisher<CryptoStock> {
     lateinit var sink: FluxSink<Publisher<CryptoStock>>
-    val onPropChange: (KProperty<*>, Publisher<CryptoStock>, Publisher<CryptoStock>) -> Unit = { prop, old, new ->
+    val onPropChange: (KProperty<*>, Publisher<CryptoStock>, Publisher<CryptoStock>) -> Unit = { _, _, new ->
         sink.next(new)
     }
     var observableStream: Publisher<CryptoStock> by Delegates.observable(stream, onPropChange)

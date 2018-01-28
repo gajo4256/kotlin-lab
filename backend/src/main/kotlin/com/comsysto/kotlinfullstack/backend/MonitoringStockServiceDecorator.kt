@@ -1,5 +1,6 @@
 package com.comsysto.kotlinfullstack.backend
 
+import com.comsysto.kotlinfullstack.CryptoStock
 import org.reactivestreams.Publisher
 import reactor.core.publisher.Flux
 import java.time.Duration
