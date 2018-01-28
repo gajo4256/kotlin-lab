@@ -24,22 +24,24 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile('org.springframework.boot:spring-boot-starter-webflux')
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}")
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}") // necessary otherwise we receive an additional 1.1.61 transitive dependency...
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlin_version}")
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
     compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${coroutines_version}")
     compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-devtools:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-webflux:${spring_boot_version}")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
     compile project(":common-jvm")
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
-    testCompile('io.projectreactor:reactor-test')
-    testCompile 'junit:junit:4.12'
-    testCompile 'com.willowtreeapps.assertk:assertk:0.9'
-    testCompile 'org.mockito:mockito-core:2.13.0'
+    testCompile("io.projectreactor:reactor-test")
+    testCompile "junit:junit:4.12"
+    testCompile "com.willowtreeapps.assertk:assertk:0.9"
+    testCompile "org.mockito:mockito-core:2.13.0"
 }
 
 sourceCompatibility = 1.8
