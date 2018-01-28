@@ -1,7 +1,6 @@
 package com.comsysto.kotlinfullstack.backend.subscription
 
 import com.comsysto.kotlinfullstack.backend.CryptoStockServiceInterface
-import com.comsysto.kotlinfullstack.backend.DynamicSourceProducer
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -20,7 +19,7 @@ internal class SubscriptionServiceImpl(private val repository: SubscriptionRepos
 
     override fun activateSubscription(sub: CurrencyStockSubscription.Pending): CurrencyStockSubscription.Active {
         val stream = cryptoService.currentPriceStream(sub.currencies)
-        val activated = sub.activate(DynamicSourceProducer(stream))
+        val activated = sub.activate(stream)
         repository.put(sub.id, activated)
         return activated
     }
@@ -28,9 +27,9 @@ internal class SubscriptionServiceImpl(private val repository: SubscriptionRepos
     override fun changeSubscription(sub: CurrencyStockSubscription, currencies: List<String>): CurrencyStockSubscription {
         return when (sub) {
             is CurrencyStockSubscription.Active -> {
-                val addedCurrenciesStream = cryptoService.currentPriceStream(currencies)
-                //TODO stream.stream WTF??
-                sub.stream.stream.changeSource(addedCurrenciesStream)
+                val newCurrenciesStream = cryptoService.currentPriceStream(currencies)
+                sub.stream.observableStream = newCurrenciesStream
+                sub.stream.currencies = currencies
                 sub
             }
             is CurrencyStockSubscription.Pending -> sub.changeCurrencies(currencies)
